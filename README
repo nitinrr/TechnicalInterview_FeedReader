@@ -1,0 +1,13 @@
+We have used the same project as given i.e. TechnicalInterview_FeedReader
+
+Highlights are as follows:
+1. In this we have created additional database FeedReaderDB to the default one to store the user feeds
+2. There are majorly two views i.e. the DisplayFeed and SubcribedFeeds to display the feeds on the go and the subscribed feeds separately
+3. DataAcces class to connect to the new DB i.e. FeedReaderDB
+4. SyndicationFeed is used to consume the feeds rss/atom(few compatible ones)
+5. Features mentioned in the Interview_Requirements.docx file has been implemented
+6. Additional features like unsubscribing the feed, showing the feed content within the same browser window, sorting the feed items as per the updated date, etc. can be easily implemented if given more time
+7. User can create the account and have his own set of feeds saved for display when he logs in
+8. The code is commented wherever necessary
+9. Conding conventions have been followed as per the standards
+10. Can introduce async and await for heavier feeds with media

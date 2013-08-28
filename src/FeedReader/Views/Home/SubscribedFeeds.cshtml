@@ -1,0 +1,31 @@
+﻿@model IEnumerable<FeedReader.Models.Rss>
+
+@{
+    ViewBag.Title = "Subscribe Feed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Displays the subscribed feeds from the DB -->
+<h2>SubscribeFeed</h2>
+<table>
+<tr>
+<th>
+   RssFeed
+</th>
+<th>
+   Unsubscribe
+</th>
+</tr>
+@foreach(var item in Model) {
+<tr>
+<td>
+       
+    @Html.ActionLink(@Html.Encode(item.RssFeed), "DisplayFeed", new { feedLink=item.RssFeed })
+
+</td>
+<td>		
+    @Html.ActionLink("Unsubscribe", "SubscribedFeeds")
+</td>
+</tr>
+}
+</table>
+<br />Click <strong>Home</strong> to Subscribe another feed.

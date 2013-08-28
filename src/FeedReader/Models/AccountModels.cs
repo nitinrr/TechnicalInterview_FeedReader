@@ -68,6 +68,9 @@ namespace FeedReader.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public int UserId { get; set; }
+        
     }
 
     public class RegisterModel

@@ -36,8 +36,10 @@ namespace FeedReader.Controllers
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            //if(DataAccess.DAL.AuthenticateUser(model.UserName,model.Password))
             {
-                return RedirectToLocal(returnUrl);
+                Session["USERID"] = DataAccess.DAL.GetUserId(model.UserName);
+                return RedirectToAction("DisplayFeed", "Home");
             }
 
             // If we got this far, something failed, redisplay form
@@ -53,7 +55,7 @@ namespace FeedReader.Controllers
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
-
+            Session.Abandon();                
             return RedirectToAction("Index", "Home");
         }
 
@@ -81,7 +83,8 @@ namespace FeedReader.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    Session["USERID"] = DataAccess.DAL.GetUserId(model.UserName);
+                    return RedirectToAction("DisplayFeed", "Home");
                 }
                 catch (MembershipCreateUserException e)
                 {

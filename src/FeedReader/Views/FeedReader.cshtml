@@ -1,0 +1,15 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Index.ascx.cs" Inherits="MvcWidgets.Views.RssWidget.Index" %>
+<div class="RssFeedTitle"><%= Html.Encode(ViewData.Model.Title.Text) %> &nbsp; <%= Html.Encode(ViewData.Model.LastUpdatedTime.ToString("MMM dd, yyyy hh:mm:ss") )%></div>
+
+<div class='RssContent'>
+<% foreach (var item in ViewData.Model.Items)
+   {
+       string url = item.Links[0].Uri.OriginalString;
+       %>
+   <p><a href='<%=  url %>'><b> <%= item.Title.Text%></b></a>
+   <%  if (item.Summary != null)
+       {%>
+        <br/> <%= item.Summary.Text %>
+    <% }
+   } %> </p>
+</div>

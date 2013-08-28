@@ -1,0 +1,67 @@
+﻿@model FeedReader.Models.FeedModel
+@using System.Text.RegularExpressions;
+@{
+    ViewBag.Title = "DisplayFeed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Subscribe to RSS</h2>
+<br/>
+@using (Html.BeginForm("DisplayFeed"))
+{
+	<fieldset>
+		<legend>RSS Feed Reader</legend>
+        
+        <h4>@Html.ActionLink("Show My Feeds >>", "SubscribedFeeds")</h4>
+        <br />
+		<div class="editor-label">
+            <strong>RSS Link: </strong>@Html.TextBox("feedLink")
+        <input type="submit" name="Subscribe" value="Subscribe Feed" />
+		</div>
+        <strong>Search: </strong><input class="search" type="search" id="input" onfocus="this.value = '';" placeholder="Search Feed Items">
+		
+	</fieldset>
+}
+<br />
+<h2>Your feed will be displayed below.</h2>
+ 
+<!-- Below Code displays the default or rss feed items entered in the textbox with description -->
+@if(Model.Feed !=null) {
+    <h3>Feed Title: @Model.Feed.Title.Text</h3> 
+    <h4>Feed Description: @Model.Feed.Description.Text</h4>
+    <ul>
+    @foreach (var post in Model.Feed.Items.ToList()) {
+        string image = Regex.Match(post.Summary.Text, @"<img\s+src='(.+)'\s+border='0'\s+/>").Groups[0].Value;
+        if (image.Length > 0)
+        {
+            @image;
+        }
+        <li data-label="@post.Title.Text"><a href="@post.Links.First().Uri" target="_blank">@post.Title.Text</a><br /><div>Published on: @post.PublishDate.LocalDateTime<br />@post.Summary.Text</div></li>
+    }</ul>
+} 
+<script type="text/javascript">
+    $.noConflict();
+    jQuery(document).ready(function ($) {
+        $('#input').on("keyup", function () {
+            // get the value from text field
+            var input = $(this).val();
+            // check wheather the matching element exists
+            // by default every list element will be shown
+            $("ul li").show();
+            // Non related element will be hidden after input
+            if (input.length > 0) {
+                $("ul li").not("[data-label*=" + input + "]").hide();
+            }
+            // For Search Variable, total number of lists and number of matched elements
+            var total = $("ul li").length;
+            var matched = $("ul li[data-label*=" + input + "]").length;
+            if (input.length > 0) {
+                $('.input').show();
+                $('.input').html('Searched for "' + input + '" (' + matched + ' Matched out of ' + total + ' )');
+            } else {
+                $('.input').hide();
+            }
+        });
+    });
+</script>
+
+            
